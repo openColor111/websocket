@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Example</title>
+</head>
+<body>
+    <h1>WebSocket Example</h1>
+    <p>This is a simple example of how to use WebSockets to create a real-time chat application.</p>
+    <p>To get started, open two browser windows and navigate to this page.</p>
+    <p>In one window, type a message in the input box and click "Send".</p>
+    <p>The message will be displayed in the other window.</p>
+    <input type="text" id="message" style="width: 200px; height: 30px;"/>
+    <button id="send">Recive</button>
+    
+     <input type="text" id="message2" />
+    <button id="send2">Send2</button>
+    
+    <script>
+        // Create a WebSocket connection.
+        var socket = new WebSocket("ws://192.168.153.131:80/ws");
+
+        // Handle the "open" event.
+        socket.onopen = function() {
+            console.log("WebSocket connection opened.");
+        };
+
+        // Handle the "message" event.
+        socket.onmessage = function(event) {
+            console.log("Received message: " + event.data);
+
+            // Display the message in the other window.
+            document.getElementById("message").value = event.data;
+        };
+
+        // Handle the "error" event.
+        socket.onerror = function(error) {
+            console.log("WebSocket connection error: " + error.message);
+        };
+
+        // Handle the "close" event.
+        socket.onclose = function() {
+            console.log("WebSocket connection closed.");
+        };
+
+        // Send a message.
+        document.getElementById("send2").onclick = function() {
+            var message = document.getElementById("message2").value;
+            socket.send(message);
+        };
+    </script>
+</body>
+</html>
